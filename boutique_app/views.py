@@ -13,37 +13,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 
 # Create your views here.
-def hello(request):
-    now = datetime.datetime.now()
-    
-    pname = 'Ahmad Qureshi'
 
-    all_users = Users.objects.all()
-    
-    item_list = []
-    
-    for user in all_users:
-        disp = user.LoginName + ' : ' + user.Password
-        item_list.append(disp)
-#    item_list.append('XYZ')
-    
-    warranty = True
-    
-    company = 'Hus hemma'
-	
-    contextDictionary = {}
-    contextDictionary['person_name'] = pname
-    contextDictionary['company'] = company
-    contextDictionary['ship_date'] = now
-    contextDictionary['item_list'] = item_list
-    contextDictionary['ordered_warranty'] = warranty
-    
-    t = get_template('first_template.html')
-
-    html = t.render( Context( contextDictionary ))
-
-    return HttpResponse(html)
-
+# Index page will be displayed from this view
 def index(request):
     t = get_template('index.html')
     contextDictionary = {}
@@ -52,11 +23,13 @@ def index(request):
 
     return HttpResponse(html)
 
+# Add Product first step 
 def add_product_step1_form(request):
     t = get_template('add_product_step1.html')
     
     authenticated = False
     
+    #Always perform authentication before proceeding to add product
     try:
         if request.user is not None:
             authenticated = request.user.is_authenticated()
@@ -75,6 +48,8 @@ def add_product_step1_form(request):
 
     return HttpResponse( html )
 
+#This view will add basic info of product via ajax
+#View name needs to renamed 
 def ajaxtest(request):
     
     maxRec = int(0)
@@ -102,6 +77,8 @@ def ajaxtest(request):
         return HttpResponse(message)
     return HttpResponse('')
 
+#This view will upload product images via ajax
+#additionally it will create a thumb nail using PIL as imaging library
 def imageupload(request):
     pathToImages = settings.STATICFILES_DIRS[4][1]
     extension = ".jpeg"
@@ -156,6 +133,7 @@ def imageupload(request):
     
     return HttpResponse(html)
 
+#This view will delete image of a product
 def deleteimage(request):
     imageID = request.POST["ImageID"]
 
@@ -164,6 +142,7 @@ def deleteimage(request):
 
     return HttpResponse("")
 
+#CLass for holding product Information
 class ProductItem:
     productHeading = ""
     productImage = ""
@@ -175,7 +154,7 @@ class ProductItem:
         self.productPrice = price
         self.productID = id
     
-
+#Views products in the custom grid view
 def viewproducts(request):
     numOfRowsPerPage = 10
     isFirstPage = False
@@ -264,6 +243,7 @@ class ImageItem:
         self.imageName = name
         self.linkedID = lID
 
+#Displays product details 
 def productdetail(request):
     productID = request.GET.get('id')
     product = Products.objects.get( ProductID = productID)
@@ -362,6 +342,7 @@ def loginprocess(request):
     
     return HttpResponse( html )
 
+#This view displays Dashboard/main page after login
 def mainpage(request):
     authenticated = False
     
@@ -383,6 +364,7 @@ def mainpage(request):
 
     return HttpResponseRedirect("/index/")
 
+#Performs user logout 
 def logoutpage(request):
     logout(request)
     return HttpResponseRedirect("/index/")
