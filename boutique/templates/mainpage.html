@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>RAHIMA's </title>
+	<link rel="stylesheet" href="{% static "css/style.css" %}" type="text/css">
+</head>
+<body>
+       <div align=right><a href="/logout/">{{ UserName }} Logout</a></div>
+	<div id="header">
+		<div class="section">
+			<div class="logo">
+				<a href="index.html">Rahima's</a>
+			</div>
+			<ul>
+				<li>
+					<a href="{% url 'index' %}">home</a>
+				</li>
+				<li>
+					<a href="/viewproducts/">Suits</a>
+				</li>
+				<li>
+					<a href="/contact/">contact</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="body">
+	        <table align=Center width=30%>
+		  <tr>
+		    <td bgcolor="#AA0000" align=Center>
+		      Actions
+		    </td>
+		  </tr>
+		  <tr>
+		    <td Align=Center>
+		      <a href="/add_product/">Add Product</a>
+		    </td>
+		  </tr>
+		</table>
+	</div>
+	<div id="footer">
+		<div align=right>
+			<table width=100%>
+				<tr align=right>
+					<td>
+					</td>
+				</tr>
+				<tr align=right>
+					<td>
+						&copy; copyright 2014 | all rights reserved.
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

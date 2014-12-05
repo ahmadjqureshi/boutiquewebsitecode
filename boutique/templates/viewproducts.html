@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>RAHIMA's </title>
+	<link rel="stylesheet" href="{% static "css/style.css" %}" type="text/css">
+</head>
+<body>
+	<div id="header">
+		<div class="section">
+			<div class="logo">
+				<a href="index.html">Rahima's</a>
+			</div>
+			<ul>
+				<li>
+					<a href="{% url 'index' %}">home</a>
+				</li>
+				<li class="selected">
+					<a href="/viewproducts/">Suits</a>
+				</li>
+				<li>
+					<a href="/contact/">contact</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="body">
+		<table width=100%>
+		  <tr>
+		    <td>
+		      <form action="/viewproducts/" method="POST">{% csrf_token %}
+			<table width=60%>
+			  <tr>
+			    <td align=right >
+			      <input type="text" name="query" id="query1" value="{{ QueryString }}" />
+			    </td>
+			    <td align=left>
+			      <input name="" type="submit" value="Search!" />
+			    </td>
+			  </tr>
+			</table>
+		      </form>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>
+		      <table align=Center width=60% border=1 frame=void rules=rows>
+			{% for item in item_list %}
+			   <tr width=60%>
+			     <td width=30% align=Left>
+			       {% if item.productImage != "" %}
+				 <a href="/productdetail/?id={{ item.productID }}"><img src="/media/{{ item.productImage }}" alt="Suit Image"/></a>
+			       {% endif %}
+			     </td>
+			     <td width=30% align=Left>
+			        <a href="/productdetail/?id={{ item.productID }}">{{ item.productHeading }}</a>
+			     </td>
+			     <td width=40% align=Left>
+			       {{ item.productPrice }} PKR.
+			     </td>
+			   </tr>
+			{% endfor %}
+			   <tr class="article">
+			     <td align=Left>
+			       {% if previousPage %}
+			           <a href="/viewproducts/?page={{ previousPageNum }}"> < </a>
+			       {% endif %}
+			     </td>
+			     <td>
+			     </td>
+			     <td align=Left>
+			       {% if nextPage %}
+			           <a href="/viewproducts/?page={{ nextPageNum }}"> > </a>
+			       {% endif %}
+			     </td>
+			   </tr>
+		      </table>
+		    </td>
+		  </tr>
+		</table>
+	</div>
+	<div id="footer">
+		<div align=right>
+			<table width=100%>
+				<tr align=right>
+					<td>
+						<a href="/loginform/">Admin Login</a>
+					</td>
+				</tr>
+				<tr align=right>
+					<td>
+						&copy; copyright 2014 | all rights reserved.
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

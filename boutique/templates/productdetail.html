@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>RAHIMA's </title>
+	<link rel="stylesheet" href="{% static "css/style.css" %}" type="text/css">
+</head>
+<body>
+<script>
+  
+  window.onload = function() {
+     hideAllImages();
+     var images = document.getElementById('ImageContainer').getElementsByTagName('img');
+     if ( images.length > 0 )
+     {
+         images[0].style.display = "";
+     }
+  };
+
+  function hideAllImages()
+  {
+     var images = document.getElementById('ImageContainer').getElementsByTagName('img');
+     for ( var i = 0;i < images.length; i++ )
+     {
+	images[i].style.display = "none";
+     }
+     
+     return images.length;
+  }
+
+  function thumbNailClick(imageID)
+  {
+      hideAllImages();
+      var images = document.getElementById('ImageContainer').getElementsByTagName('img');
+      for (var i = 0; i < images.length ; i++ )
+      {
+	 if ( images[i].id == imageID )
+	 {
+	     images[i].style.display = "";
+         }
+      }
+  }
+</script>
+
+	<div id="header">
+		<div class="section">
+			<div class="logo">
+				<a href="index.html">Rahima's</a>
+			</div>
+			<ul>
+				<li>
+					<a href="{% url 'index' %}">home</a>
+				</li>
+				<li class="selected">
+					<a href="/viewproducts/">Suits</a>
+				</li>
+				<li>
+					<a href="/contact/">contact</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="body">
+		<a href="/viewproducts/?page={{ pageNumber }}" >Back</a><br>
+		<h1> {{ Heading }}</h1>
+		<table id="main" width=50%>
+		  <tr>
+		    <td>
+		      <div id="ImageContainer" align=Left>
+			    {% for image in imageList %}
+			       <img id="{{ image.imageID }}" src="/media/{{ image.imageName }}" alt="Suit Image" height="70%" width="70%"/>
+			    {% endfor %}
+		      </div>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>
+		      <br>
+		      <table id="ThumbNailContainer" align=Left>
+			<tr>
+			{% for image in thumbNailList %}
+			 <td style="border: 2px solid black;">
+			   <img id="{{ image.imageID }}" src="/media/{{ image.imageName }}" alt="{{ image.linkedID }}" onclick="thumbNailClick(this.alt)" style="cursor: pointer;"/>
+			 </td>
+			{% endfor %}
+			</tr>
+		      </table>
+		    </td>
+		  </tr>
+		</table>
+		<table align=Left width=30%>
+		  <tr>
+		    <td>
+		      Price: {{ Price }}
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>
+		      <br>
+		      {{ Details }}
+		    </td>
+		  </tr>
+	       </table>
+	</div>
+	<div id="footer">
+		<div align=right>
+			<table width=100%>
+				<tr align=right>
+					<td>
+						<a href="/add_product_step1/">Admin Login</a>
+					</td>
+				</tr>
+				<tr align=right>
+					<td>
+						&copy; copyright 2014 | all rights reserved.
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

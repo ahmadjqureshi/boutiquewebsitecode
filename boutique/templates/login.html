@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>RAHIMA's </title>
+	<link rel="stylesheet" href="{% static "css/style.css" %}" type="text/css">
+</head>
+<body>
+<script type="text/javascript">
+
+function validate() {
+    var strUserName = "UserName cannot be empty.";
+    var strPassword = "Password cannot be empty.";
+    var strUserNameRed = strUserName.fontcolor("red");
+    var strPasswordRed = strPassword.fontcolor("red");
+
+    var userNameLen = document.getElementById("username").value.length;
+    var passwordLen = document.getElementById("pwd").value.length;
+
+    alert( userNameLen );
+
+    if ( userNameLen > 0 )
+    {
+        document.getElementByName("LoginForm").submit();
+        return true;
+    }
+    
+    if ( userNameLen == 0 )
+    {
+        document.getElementById("UserNameMessage").innerHTML = "";
+        document.getElementById("UserNameMessage").innerHTML = strUserNameRed;
+    }
+
+    if ( userNameLen == 0 )
+    {
+        document.getElementById("PasswordMessage").innerHTML = "";
+        document.getElementById("PasswordMessage").innerHTML = strPasswordRed;
+    }
+
+    return false;
+}
+
+</script>
+
+	<div id="header">
+		<div class="section">
+			<div class="logo">
+				<a href="index.html">Rahima's</a>
+			</div>
+			<ul>
+				<li>
+					<a href="{% url 'index' %}">home</a>
+				</li>
+				<li>
+					<a href="/viewproducts/">Suits</a>
+				</li>
+				<li>
+					<a href="/contact/">contact</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="body">
+	  <form  action="/loginprocess/" name="LoginForm" method="POST" onsubmit="return(validate());">{% csrf_token %}
+	        <table align=Center width=30%>
+		  <tr>
+		    <td bgcolor="#F0FFF0" align=Center>
+		      Login
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>
+		      <table>
+			<tr>
+			  <td>
+			    User Name:
+			  </td>
+			  <td>
+			    <input type="text" id="username" name="uname" />
+			    <div id="UserNameMessage"></div>
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			    Password:
+			  </td>
+			  <td>
+			    <input type="password" id="pwd" name="upwd">
+			    <div id="PasswordMessage"></div>
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			  </td>
+			  <td>
+			    <input type="submit" value="Login" />
+			    <p style="color:red;"> {{ LoginError  }} </p>
+			  </td>
+			</tr>
+		      </table>
+		    </td>
+		  </tr>
+		</table>
+	   </form>
+	</div>
+	<div id="footer">
+		<div align=right>
+			<table width=100%>
+				<tr align=right>
+					<td>
+					</td>
+				</tr>
+				<tr align=right>
+					<td>
+						&copy; copyright 2014 | all rights reserved.
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

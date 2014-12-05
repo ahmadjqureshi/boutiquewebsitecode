@@ -1,0 +1,11 @@
+{% load staticfiles %}
+<table id="{{ RowID }}" width=60% align=Center>
+  <tr>
+    <td>
+      <br>
+        <img src="/media/{{ ThumbNailName }}" alt="Loading"/>
+	<button value="{{ RowID }}" onclick="deleteImage(this.value)">Delete</button>
+      <br>
+    </td>
+  </tr>
+</table>

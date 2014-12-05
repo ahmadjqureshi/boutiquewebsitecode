@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>RAHIMA's </title>
+	<link rel="stylesheet" href="{% static "css/style.css" %}" type="text/css">
+</head>
+<body>
+	<div id="header">
+		<div class="section">
+			<div class="logo">
+				<a href="index.html">Rahima's</a>
+			</div>
+			<ul>
+				<li class="selected">
+					<a href="index.html">home</a>
+				</li>
+				<li>
+					<a href="about.html">about</a>
+				</li>
+				<li>
+					<a href="suits.html">Suits</a>
+				</li>
+				<li>
+					<a href="news.html">news</a>
+				</li>
+				<li>
+					<a href="contact.html">contact</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="body" >
+		<form action="/add_product_step2/" method="POST">{% csrf_token %}
+			<table width=60%>
+				<tr width=100%>
+				  <td align=center>
+				    <h3>Add Suit Step 2</h3>
+				  </td>
+				</tr>
+				<tr >
+					<td align=Center width=30%>
+						<div id="images"></div>
+					</td>
+				</tr>
+				<tr >
+					<td align=Left width=30%>
+					</td>
+					<td align=Left width=70%>
+						<input name="ToStep2" type="submit" value="Proceed to Step 2" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div id="footer">
+		<div align=right>
+			<table width=100%>
+				<tr align=right>
+					<td>
+						&copy; copyright 2014 | all rights reserved.
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

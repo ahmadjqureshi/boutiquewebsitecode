@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>RAHIMA's </title>
+	<link rel="stylesheet" href="{% static "css/style.css" %}" type="text/css">
+</head>
+<body>
+	<div id="header">
+		<div class="section">
+			<div class="logo">
+				<a href="index.html">Rahima's</a>
+			</div>
+			<ul>
+				<li class="selected">
+					<a href="{% url 'index' %}">home</a>
+				</li>
+				<li>
+					<a href="/viewproducts/">Suits</a>
+				</li>
+				<li>
+					<a href="/contact/">contact</a>
+				</li>
+			</ul>
+		</div>
+		<div class="article">
+			<img src="{% static "images/rahima_logo.jpg" %}" alt="">
+			<h1>Great Suits come from experts.</h1>
+		</div>
+	</div>
+	<div id="body">
+	       <div align=Center width=50%>
+		 Contact us on following numbers to get more detailed information:<br>
+		 Phone: +92 61 4377444<br>
+		 Email: info-rahima@gmail.com
+		 <br>
+	       </div>
+	</div>
+	<div id="footer">
+		<div align=right>
+			<table width=100%>
+				<tr align=right>
+					<td>
+						<a href="/loginform/">Admin Login</a>
+					</td>
+				</tr>
+				<tr align=right>
+					<td>
+						&copy; copyright 2014 | all rights reserved.
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

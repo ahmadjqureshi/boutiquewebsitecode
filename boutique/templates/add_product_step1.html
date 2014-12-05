@@ -1,0 +1,254 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>RAHIMA's </title>
+	<link rel="stylesheet" href="{% static "css/style.css" %}" type="text/css">
+	<link rel="stylesheet" href="{% static "scripts/jquery-ui.css" %}" type="text/css">
+	<script src="{% static "scripts/jquery-1.11.1.js" %}"></script>
+	<script src="{% static "scripts/jquery-ui.js" %}"></script>
+</head>
+<body>
+<script>
+/*CSRF data handling*/
+    var csrfcookie = function() {
+    var cookieValue = null,
+        name = 'csrftoken';
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+     }
+     return cookieValue;
+    };
+
+/*Basic Data Entry AJAX Form*/
+   var clientProdInfo = new XMLHttpRequest();
+   var clientUploadImage = new XMLHttpRequest();
+   var functionId ;
+   var blockToBeRemoved;
+  
+   function upload() 
+   {
+      $("#overlay").show();
+     
+      /* Create a FormData instance */
+      var formData = new FormData();
+      /* Add data to form  */ 
+      formData.append( "heading", document.getElementById("ProductHeading").value);
+      formData.append( "description", document.getElementById("ProductDescription").value);
+      formData.append( "price", document.getElementById("Price").value);
+
+      clientProdInfo.open("post", "/testajax/", true);
+      //clientProdInfo.setRequestHeader("Content-Type", "multipart/form-data");
+      clientProdInfo.setRequestHeader("enctype", "multipart/form-data");
+      clientProdInfo.setRequestHeader('X-CSRFToken', csrfcookie());
+      clientProdInfo.send(formData);  /* Send to server */ 
+   }
+     
+   /* Check the response status for basic product data*/
+   clientProdInfo.onreadystatechange = function() 
+   {
+      if (clientProdInfo.readyState == 4 && clientProdInfo.status == 200) 
+      {
+	 var foot = document.getElementById( "footer");
+         foot.innerHTML = foot.innerHTML + clientProdInfo.responseText;
+
+	 $("#step1").hide();
+         $("#Addstep1ButtonRow").hide();
+	 $("#UploadedFiles").show();
+	 $("#overlay").hide();
+	 delete clientProdInfo;
+      }
+      else
+      {
+//	  var foot = document.getElementById( "footer");
+//        foot.innerHTML = foot.innerHTML + clientProdInfo.responseText;
+      }
+   }
+
+   /* Upload Image AJAX form*/
+   function uploadImage()
+   {
+      $("#overlay").show();
+      var file1 = document.getElementById("pic");
+      var formData = new FormData();
+      /* Add the file */ 
+      formData.append("file1", file1.files[0]);
+
+      clientUploadImage.open("post", "/uploadimage/", true);
+      clientUploadImage.setRequestHeader("enctype", "multipart/form-data");
+      clientUploadImage.setRequestHeader('X-CSRFToken', csrfcookie());
+      clientUploadImage.send(formData);  /* Send to server */ 
+      functionId = 1;
+   }
+
+   /* Delete Image AJAX Form*/
+   function deleteImage(imgRowID)
+   {
+      alert("RowID: " + imgRowID);
+      blockToBeRemoved = imgRowID;
+       $("#overlay").show();
+      var formData = new FormData();
+      /* Add the file */ 
+      formData.append("ImageID", imgRowID);
+
+      clientUploadImage.open("post", "/deleteimage/", true);
+      clientUploadImage.setRequestHeader("Content-Type", "multipart/form-data");
+      clientUploadImage.setRequestHeader('X-CSRFToken', csrfcookie());
+      clientUploadImage.send(formData);  /* Send to server */ 
+      functionId = 2;
+   }
+
+
+   /* Check the response status for Image upload or delete*/
+   clientUploadImage.onreadystatechange = function() 
+   {
+      if (clientUploadImage.readyState == 4 && clientUploadImage.status == 200) 
+      {
+         //On success append response to html  clientUploadImage.responseText
+	 //alert(clientUploadImage.responseText);
+
+         if ( functionId == 1 )
+         {
+             var imgTable = document.getElementById("UploadedFilesImageTable");
+	     imgTable.innerHTML =imgTable.innerHTML + clientUploadImage.responseText;
+	     $("#overlay").hide();
+         }
+
+         if ( functionId == 2 )
+         {
+             var element = document.getElementById(blockToBeRemoved);
+             element.outerHTML = "";
+	     delete element;
+             
+	     $("#overlay").hide();
+         }
+         
+      }
+      else
+      {
+//	  var foot = document.getElementById( "footer");
+//        foot.innerHTML = foot.innerHTML + clientUploadImage.responseText;
+      }
+   }
+
+
+</script>
+        <div align=right><a href="/logout/">{{ UserName }} Logout</a></div>
+	<div id="header">
+		<div class="section">
+			<div class="logo">
+				<a href="index.html">Rahima's</a>
+			</div>
+			<ul>
+				<li>
+					<a href="{% url 'index' %}">home</a>
+				</li>
+				<li>
+					<a href="/viewproducts/">Suits</a>
+				</li>
+				<li>
+					<a href="/contact/">contact</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="body" >{% csrf_token %}
+			<table width=60% id ="step1">
+				<tr width=100%>
+				  <td align=Right>
+				    <h3>Add Suit</h3>
+				  </td>
+				  <td align=Left>
+				    <h3>Step 1</h3>
+				  </td>
+				</tr>
+				<tr >
+					<td align=Left width=30%>
+						Heading:
+					</td>
+					<td align=Left width=70%>
+						<input height="22" maxlength="32" id="ProductHeading" type="text" width="150" />
+					</td>
+				</tr>
+				<tr>
+					<td align=Left valign=top width=30%>
+						Description:
+					</td>
+					<td align=Left width=70%>
+						<textarea rows="4" cols="50" id="ProductDescription">Add description here.</textarea>
+					</td>
+				</tr>
+				<tr >
+					<td align=Left width=30%>
+						Price:
+					</td>
+					<td align=Left width=70%>
+						<input height="22" maxlength="32" id="Price" type="text" width="150" />
+					</td>
+				</tr>
+				<tr id="Addstep1ButtonRow">
+					<td align=Left width=30%>
+					</td>
+					<td align=Left width=70%>
+						<button name="AddStep1" onclick="upload()"> Proceed </button>
+					</td>
+				</tr>
+			</table>
+			  <table id="UploadedFiles" width=60% style="display: none;">
+			    <tr width=70%>
+			      <td align=Left>
+				<h3>Upload Product Images</h3>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td>
+				<div id="UploadedFilesImageTable" width=60%>
+				  
+				</div>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td>
+				<table id="UploadedFilesTable" width=100%>
+				  <tr>
+				    <td width=30%>
+				    </td>
+				    <td width=70% align="Left">
+				      <input type="file" id="pic" accept="image/*"><br>
+				      <button name="UploadImage" onclick="uploadImage()">Upload</button>
+				    </td>
+				  </tr>
+				</table>
+			      </td>
+			    </tr>
+			    <tr>
+			      <td>
+				When you have finished uploading images click here to <a href="/addproduct/"> Add New Product</a>  click here to <a href="/mainpage/"> return to main page</a>
+			      </td>
+			    </tr>
+			  </table>
+	</div>
+	<div id="overlay" style="display: none;">
+	  <img src="{% static "images/animatedGif_1.gif" %}" alt="Loading" height="300" width="300"/>
+	</div>
+	<div id="footer">
+		<div align=right>
+			<table width=100%>
+				<tr align=right>
+					<td>
+						&copy; copyright 2014 | all rights reserved.
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

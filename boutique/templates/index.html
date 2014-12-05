@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>RAHIMA's </title>
+	<link rel="stylesheet" href="{% static "css/style.css" %}" type="text/css">
+</head>
+<body>
+	<div id="header">
+		<div class="section">
+			<div class="logo">
+				<a href="index.html">Rahima's</a>
+			</div>
+			<ul>
+				<li class="selected">
+					<a href="{% url 'index' %}">home</a>
+				</li>
+				<li>
+					<a href="/viewproducts/">Suits</a>
+				</li>
+				<li>
+					<a href="/contact/">contact</a>
+				</li>
+			</ul>
+		</div>
+		<div class="article">
+			<img src="{% static "images/rahima_logo.jpg" %}" alt="">
+			<h1>Great Suits come from experts.</h1>
+		</div>
+	</div>
+	<div id="body">
+		<ul>
+			<li>
+				<a href="{% url 'index' %}"><img src="{% static "images/suit1.jpg" %}" alt=""></a>
+				<b>best Suits</b>
+			</li>
+			<li>
+				<a href="{% url 'index' %}"><img src="{% static "images/suit2.jpg" %}" alt=""></a>
+				<b>featured Suits</b>
+			</li>
+			<li>
+				<a href="{% url 'index' %}"><img src="{% static "images/suit3.jpg" %}" alt=""></a>
+				<b>we "design" you</b>
+			</li>
+		</ul>
+	</div>
+	<div id="footer">
+		<div align=right>
+			<table width=100%>
+				<tr align=right>
+					<td>
+						<a href="/loginform/">Admin Login</a>
+					</td>
+				</tr>
+				<tr align=right>
+					<td>
+						&copy; copyright 2014 | all rights reserved.
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
